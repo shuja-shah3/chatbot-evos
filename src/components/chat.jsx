@@ -4,6 +4,8 @@ import { Bars } from "react-loader-spinner";
 import logo from "../assets/images/evos-logo-1.png";
 import evos from "../assets/images/evos-logo.png";
 
+const api_key = process.env.REACT_APP_API_KEY;
+
 const Chat = () => {
   const [newQuestion, setNewQuestion] = useState("");
   const [storedValues, setStoredValues] = useState([]);
@@ -13,7 +15,7 @@ const Chat = () => {
     baseURL: "https://api.openai.com/v1",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer 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`,
+      Authorization: `Bearer ${api_key}`,
     },
   });
 
@@ -30,8 +32,10 @@ const Chat = () => {
   const handleSubmit = async () => {
     setLoader(true);
     const response = await askGPT(newQuestion);
+    const id = Date.now();
     setStoredValues([
       {
+        id,
         question: newQuestion,
         answer: response,
       },
@@ -60,8 +64,8 @@ const Chat = () => {
                 </div>
 
                 <div className="ps-container ps-theme-default ps-active-y overFLOW" id="chat-content">
-                  {storedValues.map((value, i) => {
-                    return <QuesAnswer ques={value.question} answer={value.answer} key={i} />;
+                  {storedValues.map((value) => {
+                    return <QuesAnswer ques={value.question} answer={value.answer} key={value.id} />;
                   })}
                   <div className="ps-scrollbar-x-rail" style={{ left: "0px", bottom: "0px" }}>
                     <div className="ps-scrollbar-x" tabIndex="0" style={{ left: "0px", width: "0px" }}></div>
