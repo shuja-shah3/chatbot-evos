@@ -132,6 +132,8 @@ const QuesAnswer = ({ ques, answer }) => {
   const [text, setText] = useState("");
   const [index, setIndex] = useState(0);
 
+//used to set the typing effect
+
   useEffect(() => {
     setText("");
     setIndex(0);
